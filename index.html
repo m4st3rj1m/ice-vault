@@ -3,452 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ice Vault — Hockey Card Collection</title>
+<title>Jimbo's Collection</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ice: #e8f4fd;
-    --ice-mid: #c5dff5;
-    --rink: #0a1628;
-    --rink-mid: #112240;
-    --rink-light: #1a3356;
-    --blue: #1e6fbb;
-    --blue-bright: #3d9de8;
-    --gold: #f0c040;
-    --red: #e03030;
-    --white: #f5f9ff;
-    --muted: #7a9bbf;
-    --border: rgba(61,157,232,0.18);
+    --rink: #0a1628; --rink-mid: #112240; --rink-light: #1a3356;
+    --blue: #1e6fbb; --blue-bright: #3d9de8; --gold: #f0c040;
+    --red: #e03030; --white: #f5f9ff; --ice: #e8f4fd; --ice-mid: #c5dff5;
+    --muted: #7a9bbf; --border: rgba(61,157,232,0.18);
+    --poke-bg: #0f0a1e; --poke-mid: #1a1035; --poke-accent: #ffcb05;
+    --poke-red: #cc0000; --poke-purple: #7c4dff; --poke-border: rgba(124,77,255,0.2);
+    --poke-muted: #8a7aaa;
   }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; min-height:100vh; overflow-x:hidden; transition:background 0.4s; }
+  body.tab-hockey { background:var(--rink); color:var(--white); }
+  body.tab-pokemon { background:var(--poke-bg); color:var(--white); }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--rink);
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Hockey themed background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
+  /* BACKGROUNDS */
+  .bg-layer { position:fixed; inset:0; pointer-events:none; z-index:0; transition:opacity 0.4s; }
+  .bg-hockey {
     background:
       radial-gradient(ellipse 70% 50% at 50% 0%, rgba(30,111,187,0.18) 0%, transparent 65%),
-      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(61,157,232,0.07) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 30% at 20% 70%, rgba(30,111,187,0.06) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(61,157,232,0.07) 0%, transparent 60%);
   }
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3C!-- Puck --%3E%3Cellipse cx='30' cy='40' rx='12' ry='5' fill='none' stroke='rgba(61,157,232,0.07)' stroke-width='1.5'/%3E%3Cellipse cx='30' cy='38' rx='12' ry='5' fill='none' stroke='rgba(61,157,232,0.05)' stroke-width='1'/%3E%3Crect x='18' y='38' width='24' height='4' rx='0' fill='none' stroke='rgba(61,157,232,0.04)' stroke-width='1'/%3E%3C!-- Stick 1 --%3E%3Cline x1='80' y1='10' x2='120' y2='80' stroke='rgba(61,157,232,0.06)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='120' y1='80' x2='135' y2='75' stroke='rgba(61,157,232,0.06)' stroke-width='3' stroke-linecap='round'/%3E%3C!-- Puck 2 --%3E%3Cellipse cx='160' cy='130' rx='10' ry='4' fill='none' stroke='rgba(61,157,232,0.06)' stroke-width='1.5'/%3E%3Crect x='150' y='128' width='20' height='4' rx='0' fill='none' stroke='rgba(61,157,232,0.04)' stroke-width='1'/%3E%3C!-- Stick 2 --%3E%3Cline x1='10' y1='120' x2='60' y2='180' stroke='rgba(61,157,232,0.05)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='60' y1='180' x2='75' y2='173' stroke='rgba(61,157,232,0.05)' stroke-width='3' stroke-linecap='round'/%3E%3C!-- Stars/ice crystals --%3E%3Ccircle cx='100' cy='100' r='1' fill='rgba(200,230,255,0.12)'/%3E%3Ccircle cx='50' cy='160' r='1' fill='rgba(200,230,255,0.1)'/%3E%3Ccircle cx='170' cy='50' r='1.5' fill='rgba(200,230,255,0.1)'/%3E%3C/svg%3E");
-    background-size: 200px 200px;
-    pointer-events: none;
-    z-index: 0;
+  .bg-hockey::after {
+    content:''; position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cellipse cx='30' cy='40' rx='12' ry='5' fill='none' stroke='rgba(61,157,232,0.07)' stroke-width='1.5'/%3E%3Cline x1='80' y1='10' x2='120' y2='80' stroke='rgba(61,157,232,0.06)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='120' y1='80' x2='135' y2='75' stroke='rgba(61,157,232,0.06)' stroke-width='3' stroke-linecap='round'/%3E%3Cellipse cx='160' cy='130' rx='10' ry='4' fill='none' stroke='rgba(61,157,232,0.06)' stroke-width='1.5'/%3E%3Cline x1='10' y1='120' x2='60' y2='180' stroke='rgba(61,157,232,0.05)' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='100' cy='100' r='1' fill='rgba(200,230,255,0.12)'/%3E%3Ccircle cx='170' cy='50' r='1.5' fill='rgba(200,230,255,0.1)'/%3E%3C/svg%3E");
+    background-size:200px 200px;
   }
-
-  .wrap { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-  /* ── HEADER ── */
-  header {
-    border-bottom: 1px solid var(--border);
-    padding: 0;
-    background: rgba(10,22,40,0.85);
-    backdrop-filter: blur(12px);
-    position: sticky; top: 0; z-index: 100;
+  .bg-pokemon {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(124,77,255,0.15) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 30% at 85% 75%, rgba(255,203,5,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 30% 30% at 15% 80%, rgba(204,0,0,0.06) 0%, transparent 60%);
   }
-  .header-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 14px 24px; max-width: 1100px; margin: 0 auto;
-  }
-  .logo {
-    display: flex; align-items: center; gap: 12px;
-  }
-  .logo-icon {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
-  .logo-text {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 3px;
-    color: var(--white);
-  }
-  .logo-text span { color: var(--blue-bright); }
-
-  .header-stats {
-    display: flex; gap: 28px;
-  }
-  .hstat {
-    text-align: right;
-  }
-  .hstat-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .hstat-label {
-    font-size: 10px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+  .bg-pokemon::after {
+    content:''; position:absolute; inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Ccircle cx='40' cy='50' r='18' fill='none' stroke='rgba(124,77,255,0.08)' stroke-width='1.5'/%3E%3Cline x1='22' y1='50' x2='58' y2='50' stroke='rgba(124,77,255,0.08)' stroke-width='1.5'/%3E%3Ccircle cx='40' cy='50' r='5' fill='none' stroke='rgba(124,77,255,0.1)' stroke-width='1.5'/%3E%3Cpolygon points='170,20 173,30 183,30 175,36 178,46 170,40 162,46 165,36 157,30 167,30' fill='none' stroke='rgba(255,203,5,0.08)' stroke-width='1'/%3E%3Ccircle cx='180' cy='160' r='14' fill='none' stroke='rgba(124,77,255,0.07)' stroke-width='1.5'/%3E%3Cline x1='166' y1='160' x2='194' y2='160' stroke='rgba(124,77,255,0.07)' stroke-width='1.5'/%3E%3Ccircle cx='180' cy='160' r='4' fill='none' stroke='rgba(124,77,255,0.09)' stroke-width='1.5'/%3E%3Ccircle cx='100' cy='100' r='1.5' fill='rgba(255,203,5,0.1)'/%3E%3C/svg%3E");
+    background-size:220px 220px;
   }
 
-  /* ── MAIN LAYOUT ── */
-  .main { display: grid; grid-template-columns: 340px 1fr; gap: 24px; padding: 28px 0 60px; }
+  /* HEADER */
+  header { position:sticky; top:0; z-index:100; backdrop-filter:blur(14px); transition:background 0.4s, border-color 0.4s; }
+  body.tab-hockey header { background:rgba(10,22,40,0.9); border-bottom:1px solid rgba(61,157,232,0.18); }
+  body.tab-pokemon header { background:rgba(15,10,30,0.92); border-bottom:1px solid rgba(124,77,255,0.2); }
+  .header-inner { display:flex; align-items:center; justify-content:space-between; padding:12px 24px; max-width:1150px; margin:0 auto; gap:16px; }
+  .logo { display:flex; align-items:center; gap:11px; flex-shrink:0; }
+  .logo-icon { font-size:20px; }
+  .logo-text { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:3px; color:var(--white); }
+  body.tab-hockey .logo-text span { color:var(--blue-bright); }
+  body.tab-pokemon .logo-text span { color:var(--poke-accent); }
 
-  /* ── ADD CARD PANEL ── */
-  .panel {
-    background: rgba(17,34,64,0.7);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    overflow: hidden;
-  }
-  .panel-header {
-    padding: 18px 22px 14px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 10px;
-  }
-  .panel-header h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px;
-    letter-spacing: 2px;
-    color: var(--ice);
-  }
-  .panel-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--blue-bright);
-    box-shadow: 0 0 8px var(--blue-bright);
-  }
+  /* TABS */
+  .tabs { display:flex; gap:5px; background:rgba(255,255,255,0.05); border-radius:12px; padding:4px; }
+  .tab-btn { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; font-size:14px; padding:8px 18px; border-radius:9px; border:none; cursor:pointer; transition:all 0.25s; color:var(--muted); background:none; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+  .tab-btn:not(.active-hockey):not(.active-pokemon):hover { color:var(--white); }
+  .tab-btn.active-hockey { background:linear-gradient(135deg,var(--blue),var(--blue-bright)); color:var(--white); box-shadow:0 3px 14px rgba(30,111,187,0.4); }
+  .tab-btn.active-pokemon { background:linear-gradient(135deg,var(--poke-purple),#a970ff); color:var(--white); box-shadow:0 3px 14px rgba(124,77,255,0.4); }
 
-  .form-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+  .header-stats { display:flex; gap:22px; flex-shrink:0; }
+  .hstat { text-align:right; }
+  .hstat-val { font-family:'Bebas Neue',sans-serif; font-size:20px; line-height:1; }
+  body.tab-hockey .hstat-val { color:var(--gold); }
+  body.tab-pokemon .hstat-val { color:var(--poke-accent); }
+  .hstat-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
 
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--muted);
-    font-weight: 500;
-  }
-  .field input, .field select {
-    background: rgba(10,22,40,0.8);
-    border: 1px solid rgba(61,157,232,0.2);
-    border-radius: 8px;
-    color: var(--white);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    padding: 10px 14px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    width: 100%;
-  }
-  .field input::placeholder { color: rgba(122,155,191,0.5); }
-  .field input:focus, .field select:focus {
-    border-color: var(--blue-bright);
-    box-shadow: 0 0 0 3px rgba(61,157,232,0.12);
-  }
-  .field select option { background: var(--rink-mid); }
+  /* LAYOUT */
+  .wrap { position:relative; z-index:1; max-width:1150px; margin:0 auto; padding:0 24px; }
+  .main { display:grid; grid-template-columns:310px 1fr; gap:20px; padding:22px 0 60px; }
+  .section { display:none; }
+  .section.active { display:contents; }
 
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* PANEL */
+  .panel { border-radius:16px; backdrop-filter:blur(8px); overflow:hidden; transition:background 0.4s, border-color 0.4s; }
+  body.tab-hockey .panel { background:rgba(17,34,64,0.75); border:1px solid rgba(61,157,232,0.18); }
+  body.tab-pokemon .panel { background:rgba(26,16,53,0.82); border:1px solid rgba(124,77,255,0.2); }
+  .panel-header { padding:15px 20px 12px; border-bottom:1px solid; display:flex; align-items:center; gap:9px; }
+  body.tab-hockey .panel-header { border-color:rgba(61,157,232,0.18); }
+  body.tab-pokemon .panel-header { border-color:rgba(124,77,255,0.18); }
+  .panel-header h2 { font-family:'Bebas Neue',sans-serif; font-size:17px; letter-spacing:2px; color:var(--ice); }
+  .panel-dot { width:7px; height:7px; border-radius:50%; }
+  body.tab-hockey .panel-dot { background:var(--blue-bright); box-shadow:0 0 7px var(--blue-bright); }
+  body.tab-pokemon .panel-dot { background:var(--poke-accent); box-shadow:0 0 7px var(--poke-accent); }
 
-  .btn {
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 2px;
-    font-size: 16px;
-    border: none; cursor: pointer;
-    border-radius: 10px;
-    padding: 13px 20px;
-    transition: all 0.2s;
-    width: 100%;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--blue), var(--blue-bright));
-    color: var(--white);
-    box-shadow: 0 4px 20px rgba(30,111,187,0.35);
-  }
-  .btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 28px rgba(30,111,187,0.5);
-  }
-  .btn-primary:active { transform: translateY(0); }
+  /* FORM */
+  .form-body { padding:16px 20px; display:flex; flex-direction:column; gap:11px; }
+  .field { display:flex; flex-direction:column; gap:4px; }
+  .field label { font-size:10px; text-transform:uppercase; letter-spacing:1.2px; font-weight:600; }
+  body.tab-hockey .field label { color:var(--muted); }
+  body.tab-pokemon .field label { color:var(--poke-muted); }
+  .field input, .field select { border-radius:8px; color:var(--white); font-family:'DM Sans',sans-serif; font-size:13px; padding:8px 12px; outline:none; transition:border-color 0.2s, box-shadow 0.2s; width:100%; }
+  body.tab-hockey .field input, body.tab-hockey .field select { background:rgba(10,22,40,0.8); border:1px solid rgba(61,157,232,0.2); }
+  body.tab-hockey .field input:focus, body.tab-hockey .field select:focus { border-color:var(--blue-bright); box-shadow:0 0 0 3px rgba(61,157,232,0.1); }
+  body.tab-pokemon .field input, body.tab-pokemon .field select { background:rgba(10,5,25,0.8); border:1px solid rgba(124,77,255,0.22); }
+  body.tab-pokemon .field input:focus, body.tab-pokemon .field select:focus { border-color:var(--poke-purple); box-shadow:0 0 0 3px rgba(124,77,255,0.1); }
+  .field input::placeholder { color:rgba(122,155,191,0.4); }
+  .field select option { background:#111; }
+  .field-row { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .btn { font-family:'Bebas Neue',sans-serif; letter-spacing:2px; font-size:15px; border:none; cursor:pointer; border-radius:10px; padding:11px 20px; transition:all 0.2s; width:100%; }
+  .btn-hockey { background:linear-gradient(135deg,var(--blue),var(--blue-bright)); color:var(--white); box-shadow:0 4px 18px rgba(30,111,187,0.35); }
+  .btn-hockey:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(30,111,187,0.5); }
+  .btn-pokemon { background:linear-gradient(135deg,var(--poke-purple),#a970ff); color:var(--white); box-shadow:0 4px 18px rgba(124,77,255,0.35); }
+  .btn-pokemon:hover { transform:translateY(-1px); box-shadow:0 6px 24px rgba(124,77,255,0.5); }
 
+  /* COLLECTION */
+  .collection-panel { display:flex; flex-direction:column; gap:13px; }
+  .summary-bar { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .scard { border-radius:12px; padding:12px 15px; backdrop-filter:blur(8px); transition:background 0.4s, border-color 0.4s; }
+  body.tab-hockey .scard { background:rgba(17,34,64,0.75); border:1px solid rgba(61,157,232,0.18); }
+  body.tab-pokemon .scard { background:rgba(26,16,53,0.82); border:1px solid rgba(124,77,255,0.2); }
+  .scard-val { font-family:'Bebas Neue',sans-serif; font-size:26px; line-height:1; }
+  .scard-val.blue { color:var(--blue-bright); }
+  .scard-val.green { color:#4caf82; }
+  .scard-val.gold { color:var(--gold); }
+  .scard-val.poke { color:var(--poke-accent); }
+  .scard-val.pokepurple { color:#a970ff; }
+  .scard-label { font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:3px; }
 
+  .coll-header { display:flex; align-items:center; }
+  .coll-title { font-family:'Bebas Neue',sans-serif; font-size:21px; letter-spacing:3px; }
+  body.tab-hockey .coll-title { color:var(--ice); }
+  body.tab-pokemon .coll-title { color:var(--white); }
+  .coll-title span { font-size:13px; letter-spacing:1px; margin-left:6px; color:var(--muted); font-family:'DM Sans',sans-serif; font-weight:400; }
 
-  /* ── COLLECTION PANEL ── */
-  .collection-panel { display: flex; flex-direction: column; gap: 16px; }
+  /* SEARCH */
+  .search-bar { border-radius:10px; display:flex; align-items:center; padding:0 12px; gap:9px; backdrop-filter:blur(8px); transition:background 0.4s, border-color 0.4s; }
+  body.tab-hockey .search-bar { background:rgba(17,34,64,0.75); border:1px solid rgba(61,157,232,0.18); }
+  body.tab-pokemon .search-bar { background:rgba(26,16,53,0.82); border:1px solid rgba(124,77,255,0.2); }
+  .search-bar input { flex:1; background:none; border:none; color:var(--white); font-family:'DM Sans',sans-serif; font-size:13px; padding:10px 0; outline:none; }
+  .search-bar input::placeholder { color:var(--muted); }
+  .search-bar svg { color:var(--muted); flex-shrink:0; }
 
-  .coll-header {
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .coll-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
-    letter-spacing: 3px;
-    color: var(--ice);
-  }
-  .coll-title span { color: var(--blue-bright); font-size: 16px; letter-spacing: 1px; margin-left: 8px; }
+  /* TABLE */
+  .table-wrap { border-radius:16px; backdrop-filter:blur(8px); overflow:hidden; transition:background 0.4s, border-color 0.4s; }
+  body.tab-hockey .table-wrap { background:rgba(17,34,64,0.75); border:1px solid rgba(61,157,232,0.18); }
+  body.tab-pokemon .table-wrap { background:rgba(26,16,53,0.82); border:1px solid rgba(124,77,255,0.2); }
+  table { width:100%; border-collapse:collapse; }
+  thead th { font-size:10px; text-transform:uppercase; letter-spacing:1.4px; color:var(--muted); font-weight:600; padding:12px 13px; text-align:left; border-bottom:1px solid; }
+  body.tab-hockey thead th { border-color:rgba(61,157,232,0.18); background:rgba(10,22,40,0.4); }
+  body.tab-pokemon thead th { border-color:rgba(124,77,255,0.15); background:rgba(10,5,25,0.4); }
+  tbody tr { border-bottom:1px solid; transition:background 0.15s; animation:rowIn 0.3s ease both; }
+  body.tab-hockey tbody tr { border-color:rgba(61,157,232,0.07); }
+  body.tab-pokemon tbody tr { border-color:rgba(124,77,255,0.07); }
+  body.tab-hockey tbody tr:hover { background:rgba(61,157,232,0.06); }
+  body.tab-pokemon tbody tr:hover { background:rgba(124,77,255,0.07); }
+  tbody tr:last-child { border-bottom:none; }
+  @keyframes rowIn { from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);} }
+  td { padding:10px 13px; font-size:12.5px; color:var(--ice); vertical-align:middle; }
+  .player-cell { font-weight:600; color:var(--white); }
+  .year-badge { font-family:'DM Mono',monospace; font-size:11px; padding:2px 7px; border-radius:4px; }
+  body.tab-hockey .year-badge { background:rgba(61,157,232,0.12); color:var(--blue-bright); }
+  body.tab-pokemon .year-badge { background:rgba(124,77,255,0.12); color:#a970ff; }
+  .set-cell { color:var(--muted); font-size:11.5px; }
+  .num-cell { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+  .price-val { color:#4caf82; font-family:'DM Mono',monospace; font-size:12.5px; font-weight:600; cursor:pointer; }
+  .price-val:hover { color:#6fd4a0; }
+  .price-pending { color:var(--muted); font-size:11px; cursor:pointer; }
+  .price-pending:hover { color:var(--white); }
 
-  .btn-refresh {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(30,111,187,0.15);
-    border: 1px solid rgba(61,157,232,0.3);
-    color: var(--blue-bright);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    padding: 9px 18px;
-    border-radius: 9px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-refresh:hover { background: rgba(30,111,187,0.3); }
-  .btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-refresh svg { width: 15px; height: 15px; }
+  /* PARALLEL BADGES - Hockey */
+  .parallel-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10.5px; font-weight:600; letter-spacing:0.3px; border:1px solid; }
+  .parallel-yg { background:rgba(255,60,60,0.12); border-color:rgba(255,80,80,0.35); color:#ff7070; }
+  .parallel-canvas { background:rgba(180,120,60,0.12); border-color:rgba(200,140,80,0.35); color:#d4a06a; }
+  .parallel-composition { background:rgba(120,80,200,0.12); border-color:rgba(150,100,220,0.35); color:#b088e8; }
+  .parallel-gold { background:rgba(240,192,64,0.12); border-color:rgba(240,192,64,0.35); color:var(--gold); }
+  .parallel-silver { background:rgba(180,200,220,0.12); border-color:rgba(180,200,220,0.35); color:#b8cdd8; }
+  .parallel-rainbow { background:linear-gradient(90deg,rgba(255,80,80,0.1),rgba(80,180,255,0.1),rgba(150,80,255,0.1)); border-color:rgba(200,150,255,0.4); color:#d0a0ff; }
+  .parallel-default { background:rgba(61,157,232,0.1); border-color:rgba(61,157,232,0.25); color:var(--blue-bright); }
 
+  /* RARITY BADGES - Pokemon */
+  .rarity-badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:10.5px; font-weight:600; letter-spacing:0.3px; border:1px solid; }
+  .rarity-common { background:rgba(150,150,150,0.1); border-color:rgba(180,180,180,0.3); color:#aaaaaa; }
+  .rarity-uncommon { background:rgba(60,200,120,0.1); border-color:rgba(60,200,120,0.3); color:#60c878; }
+  .rarity-rare { background:rgba(61,157,232,0.1); border-color:rgba(61,157,232,0.3); color:var(--blue-bright); }
+  .rarity-holo { background:linear-gradient(90deg,rgba(255,80,80,0.1),rgba(80,180,255,0.1),rgba(150,80,255,0.1)); border-color:rgba(200,150,255,0.4); color:#d0a0ff; }
+  .rarity-ultra { background:rgba(255,203,5,0.1); border-color:rgba(255,203,5,0.35); color:var(--poke-accent); }
+  .rarity-secret { background:rgba(204,0,0,0.12); border-color:rgba(204,0,0,0.35); color:#ff6060; }
+  .rarity-default { background:rgba(124,77,255,0.1); border-color:rgba(124,77,255,0.25); color:#a970ff; }
 
-  /* Search bar */
-  .search-bar {
-    background: rgba(17,34,64,0.7);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    display: flex; align-items: center;
-    padding: 0 14px; gap: 10px;
-    backdrop-filter: blur(8px);
-  }
-  .search-bar input {
-    flex: 1; background: none; border: none;
-    color: var(--white); font-family: 'DM Sans', sans-serif;
-    font-size: 14px; padding: 11px 0; outline: none;
-  }
-  .search-bar input::placeholder { color: var(--muted); }
-  .search-bar svg { color: var(--muted); flex-shrink: 0; }
+  /* ACTIONS */
+  .actions-cell { display:flex; gap:5px; align-items:center; }
+  .btn-icon { background:none; border:none; color:var(--muted); cursor:pointer; padding:4px; border-radius:6px; transition:all 0.15s; display:flex; }
+  .btn-icon:hover { background:rgba(224,48,48,0.15); color:var(--red); }
+  .btn-icon.search-link:hover { background:rgba(61,157,232,0.15); color:var(--blue-bright); }
 
-  /* Cards table */
-  .table-wrap {
-    background: rgba(17,34,64,0.7);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    backdrop-filter: blur(8px);
-    overflow: hidden;
-  }
-  table { width: 100%; border-collapse: collapse; }
-  thead th {
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--muted);
-    font-weight: 600;
-    padding: 14px 16px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10,22,40,0.4);
-  }
-  tbody tr {
-    border-bottom: 1px solid rgba(61,157,232,0.07);
-    transition: background 0.15s;
-    animation: rowIn 0.3s ease both;
-  }
-  @keyframes rowIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  tbody tr:hover { background: rgba(61,157,232,0.06); }
-  tbody tr:last-child { border-bottom: none; }
-  td {
-    padding: 13px 16px;
-    font-size: 13.5px;
-    color: var(--ice);
-    vertical-align: middle;
-  }
+  /* EMPTY */
+  .empty { padding:50px 20px; text-align:center; }
+  .empty-icon { font-size:42px; margin-bottom:12px; opacity:0.3; }
+  .empty h3 { font-family:'Bebas Neue',sans-serif; font-size:19px; letter-spacing:2px; color:var(--muted); margin-bottom:5px; }
+  .empty p { color:var(--muted); font-size:12px; }
 
-  .player-cell { font-weight: 600; color: var(--white); }
-  .year-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    background: rgba(61,157,232,0.12);
-    color: var(--blue-bright);
-    padding: 3px 8px;
-    border-radius: 5px;
-  }
-  .set-cell { color: var(--muted); font-size: 12.5px; }
-  .num-cell {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-  .parallel-cell {
-    font-size: 12px;
-    color: var(--ice-mid);
-  }
-  .parallel-badge {
-    display: inline-block;
-    padding: 3px 9px;
-    border-radius: 5px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    border: 1px solid;
-  }
-  /* Parallel color themes */
-  .parallel-yg {
-    background: rgba(255,60,60,0.12);
-    border-color: rgba(255,80,80,0.35);
-    color: #ff7070;
-  }
-  .parallel-canvas {
-    background: rgba(180,120,60,0.12);
-    border-color: rgba(200,140,80,0.35);
-    color: #d4a06a;
-  }
-  .parallel-composition {
-    background: rgba(120,80,200,0.12);
-    border-color: rgba(150,100,220,0.35);
-    color: #b088e8;
-  }
-  .parallel-gold {
-    background: rgba(240,192,64,0.12);
-    border-color: rgba(240,192,64,0.35);
-    color: var(--gold);
-  }
-  .parallel-silver {
-    background: rgba(180,200,220,0.12);
-    border-color: rgba(180,200,220,0.35);
-    color: #b8cdd8;
-  }
-  .parallel-rainbow {
-    background: linear-gradient(90deg,rgba(255,80,80,0.1),rgba(80,180,255,0.1),rgba(150,80,255,0.1));
-    border-color: rgba(200,150,255,0.4);
-    color: #d0a0ff;
-  }
-  .parallel-default {
-    background: rgba(61,157,232,0.1);
-    border-color: rgba(61,157,232,0.25);
-    color: var(--blue-bright);
-  }
+  /* TOAST */
+  .toast { position:fixed; bottom:22px; right:22px; border-radius:10px; padding:10px 16px; font-size:13px; color:var(--ice); z-index:999; transform:translateY(20px); opacity:0; transition:all 0.3s; max-width:280px; box-shadow:0 8px 28px rgba(0,0,0,0.4); }
+  body.tab-hockey .toast { background:var(--rink-light); border:1px solid rgba(61,157,232,0.25); }
+  body.tab-pokemon .toast { background:var(--poke-mid); border:1px solid rgba(124,77,255,0.3); }
+  .toast.show { transform:translateY(0); opacity:1; }
 
-  .price-cell {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    min-width: 90px;
-  }
-  .price-val { color: #4caf82; }
-  .price-pending {
-    color: var(--muted);
-    font-size: 11px;
-    font-weight: 400;
-  }
-  .price-error { color: var(--red); font-size: 11px; }
-  .price-loading {
-    display: inline-block;
-    width: 14px; height: 14px;
-    border: 2px solid rgba(61,157,232,0.3);
-    border-top-color: var(--blue-bright);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    vertical-align: middle;
-  }
-
-  .actions-cell { display: flex; gap: 8px; align-items: center; }
-  .btn-icon {
-    background: none; border: none;
-    color: var(--muted); cursor: pointer;
-    padding: 5px; border-radius: 6px;
-    transition: all 0.15s;
-    display: flex;
-  }
-  .btn-icon:hover { background: rgba(224,48,48,0.15); color: var(--red); }
-  .btn-icon.ebay:hover { background: rgba(61,157,232,0.15); color: var(--blue-bright); }
-
-  /* Empty state */
-  .empty {
-    padding: 60px 20px;
-    text-align: center;
-  }
-  .empty-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.4; }
-  .empty h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 2px;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  .empty p { color: var(--muted); font-size: 13px; }
-
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 28px; right: 28px;
-    background: var(--rink-light);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 18px;
-    font-size: 13px;
-    color: var(--ice);
-    z-index: 999;
-    transform: translateY(20px); opacity: 0;
-    transition: all 0.3s;
-    max-width: 300px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  }
-  .toast.show { transform: translateY(0); opacity: 1; }
-  .toast.success { border-color: rgba(76,175,130,0.4); }
-  .toast.error { border-color: rgba(224,48,48,0.4); }
-
-  /* Responsive */
-  @media (max-width: 800px) {
-    .main { grid-template-columns: 1fr; }
-    .header-stats { display: none; }
-    .field-row { grid-template-columns: 1fr; }
-  }
-
-  /* Summary bar */
-  .summary-bar {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 12px; margin-bottom: 4px;
-  }
-  .scard {
-    background: rgba(17,34,64,0.7);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    backdrop-filter: blur(8px);
-  }
-  .scard-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    line-height: 1;
-    color: var(--gold);
-  }
-  .scard-val.blue { color: var(--blue-bright); }
-  .scard-val.green { color: #4caf82; }
-  .scard-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 4px;
+  @media(max-width:800px) {
+    .main { grid-template-columns:1fr; }
+    .header-stats { display:none; }
+    .field-row { grid-template-columns:1fr; }
+    .tab-btn { font-size:12px; padding:7px 12px; }
   }
 </style>
 </head>
-<body>
+<body class="tab-hockey">
+
+<div class="bg-layer bg-hockey" id="bg-hockey"></div>
+<div class="bg-layer bg-pokemon" id="bg-pokemon" style="opacity:0"></div>
 
 <header>
   <div class="header-inner">
     <div class="logo">
-      <div class="logo-icon">🏒</div>
-      <div class="logo-text">JIMBO'S ICE <span>VAULT</span></div>
+      <span class="logo-icon" id="logo-icon">🏒</span>
+      <div class="logo-text">JIMBO'S <span>COLLECTION</span></div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active-hockey" id="tab-hockey" onclick="switchTab('hockey')">🏒 Ice Vault</button>
+      <button class="tab-btn" id="tab-pokemon" onclick="switchTab('pokemon')">⚡ Poké Deck</button>
     </div>
     <div class="header-stats">
       <div class="hstat">
@@ -457,7 +230,7 @@
       </div>
       <div class="hstat">
         <div class="hstat-val" id="hstat-value">—</div>
-        <div class="hstat-label">Value (USD)</div>
+        <div class="hstat-label">Value</div>
       </div>
     </div>
   </div>
@@ -466,101 +239,96 @@
 <div class="wrap">
   <div class="main">
 
-    <!-- ADD CARD PANEL -->
-    <div>
+    <!-- ══ HOCKEY ══ -->
+    <div class="section active" id="sec-h-form">
       <div class="panel">
-        <div class="panel-header">
-          <div class="panel-dot"></div>
-          <h2>ADD A CARD</h2>
-        </div>
+        <div class="panel-header"><div class="panel-dot"></div><h2>ADD A CARD</h2></div>
         <div class="form-body">
-          <div class="field">
-            <label>Player Name</label>
-            <input type="text" id="f-player" placeholder="e.g. Connor McDavid">
-          </div>
+          <div class="field"><label>Player Name</label><input type="text" id="h-player" placeholder="e.g. Connor McDavid"></div>
           <div class="field-row">
-            <div class="field">
-              <label>Year</label>
-              <input type="text" id="f-year" placeholder="e.g. 2023-24">
-            </div>
-            <div class="field">
-              <label>Card #</label>
-              <input type="text" id="f-number" placeholder="e.g. 97">
-            </div>
+            <div class="field"><label>Year</label><input type="text" id="h-year" placeholder="e.g. 2024-25"></div>
+            <div class="field"><label>Card #</label><input type="text" id="h-number" placeholder="e.g. 97"></div>
           </div>
-          <div class="field">
-            <label>Set / Collection</label>
-            <input type="text" id="f-set" placeholder="e.g. Upper Deck Series 1">
-          </div>
-          <div class="field">
-            <label>Parallel / Variant</label>
-            <input type="text" id="f-parallel" placeholder="e.g. Young Guns, Canvas, Composition">
-          </div>
-          <div class="field">
-            <label>Print Run (max cards produced)</label>
-            <input type="number" id="f-printrun" placeholder="e.g. 100, 999, 2500" min="1">
-          </div>
-          <div class="field">
-            <label>Price Paid / Est. Value (USD $)</label>
-            <input type="number" id="f-price" placeholder="e.g. 12.50" min="0" step="0.01">
-          </div>
-          <button class="btn btn-primary" onclick="addCard()">＋ ADD TO COLLECTION</button>
+          <div class="field"><label>Set / Collection</label><input type="text" id="h-set" placeholder="e.g. Upper Deck Series 1"></div>
+          <div class="field"><label>Parallel / Variant</label><input type="text" id="h-parallel" placeholder="e.g. Young Guns, Canvas, Composition"></div>
+          <div class="field"><label>Print Run (max produced)</label><input type="number" id="h-printrun" placeholder="e.g. 100, 999" min="1"></div>
+          <div class="field"><label>Price (USD $)</label><input type="number" id="h-price" placeholder="e.g. 12.50" min="0" step="0.01"></div>
+          <button class="btn btn-hockey" onclick="addHockeyCard()">＋ ADD TO ICE VAULT</button>
         </div>
       </div>
-
-
     </div>
 
-    <!-- COLLECTION -->
-    <div class="collection-panel">
-      <div class="summary-bar">
-        <div class="scard">
-          <div class="scard-val blue" id="s-count">0</div>
-          <div class="scard-label">Total Cards</div>
+    <div class="section active" id="sec-h-coll">
+      <div class="collection-panel">
+        <div class="summary-bar">
+          <div class="scard"><div class="scard-val blue" id="h-s-count">0</div><div class="scard-label">Total Cards</div></div>
+          <div class="scard"><div class="scard-val green" id="h-s-value">—</div><div class="scard-label">Collection Value</div></div>
+          <div class="scard"><div class="scard-val gold" id="h-s-priced">0</div><div class="scard-label">Cards Priced</div></div>
         </div>
-        <div class="scard">
-          <div class="scard-val green" id="s-value">—</div>
-          <div class="scard-label">Collection Value (USD)</div>
+        <div class="coll-header">
+          <div class="coll-title">🏒 ICE VAULT <span id="h-count-label"></span></div>
         </div>
-        <div class="scard">
-          <div class="scard-val" id="s-priced">0</div>
-          <div class="scard-label">Cards with Price</div>
+        <div class="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="h-search" placeholder="Search player, set, parallel..." oninput="renderHockey()">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Player</th><th>Year</th><th>Set</th><th>#</th><th>Parallel</th><th>Print Run</th><th>Price</th><th></th></tr></thead>
+            <tbody id="h-tbody"></tbody>
+          </table>
+          <div class="empty" id="h-empty"><div class="empty-icon">🏒</div><h3>ICE VAULT IS EMPTY</h3><p>Add your first hockey card using the form.</p></div>
         </div>
       </div>
+    </div>
 
-      <div class="coll-header">
-        <div class="coll-title">MY COLLECTION <span id="card-count-label"></span></div>
-  
+    <!-- ══ POKEMON ══ -->
+    <div class="section" id="sec-p-form">
+      <div class="panel">
+        <div class="panel-header"><div class="panel-dot"></div><h2>ADD A CARD</h2></div>
+        <div class="form-body">
+          <div class="field"><label>Pokémon / Character</label><input type="text" id="p-pokemon" placeholder="e.g. Charizard, Pikachu"></div>
+          <div class="field-row">
+            <div class="field"><label>Year / Set</label><input type="text" id="p-year" placeholder="e.g. 2024 / SV"></div>
+            <div class="field"><label>Card #</label><input type="text" id="p-number" placeholder="e.g. 4/102"></div>
+          </div>
+          <div class="field"><label>Set / Expansion</label><input type="text" id="p-set" placeholder="e.g. Scarlet & Violet, Base Set"></div>
+          <div class="field"><label>Parallel / Variant</label><input type="text" id="p-parallel" placeholder="e.g. Full Art, Alt Art, Reverse Holo"></div>
+          <div class="field">
+            <label>Rarity</label>
+            <select id="p-rarity">
+              <option value="">— Select rarity —</option>
+              <option>Common</option><option>Uncommon</option><option>Rare</option>
+              <option>Holo Rare</option><option>Ultra Rare</option><option>Secret Rare</option>
+              <option>Special Illustration Rare</option><option>Hyper Rare</option>
+            </select>
+          </div>
+          <div class="field"><label>Price (USD $)</label><input type="number" id="p-price" placeholder="e.g. 25.00" min="0" step="0.01"></div>
+          <button class="btn btn-pokemon" onclick="addPokemonCard()">＋ ADD TO POKÉ DECK</button>
+        </div>
       </div>
+    </div>
 
-      <div class="search-bar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
-        </svg>
-        <input type="text" id="search-input" placeholder="Search by player, set, parallel..." oninput="renderTable()">
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Player</th>
-              <th>Year</th>
-              <th>Set</th>
-              <th>#</th>
-              <th>Parallel</th>
-              <th>Print Run</th>
-              <th>Price (USD)</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="card-table-body">
-          </tbody>
-        </table>
-        <div class="empty" id="empty-state">
-          <div class="empty-icon">🃏</div>
-          <h3>YOUR VAULT IS EMPTY</h3>
-          <p>Add your first card using the form on the left.</p>
+    <div class="section" id="sec-p-coll">
+      <div class="collection-panel">
+        <div class="summary-bar">
+          <div class="scard"><div class="scard-val pokepurple" id="p-s-count">0</div><div class="scard-label">Total Cards</div></div>
+          <div class="scard"><div class="scard-val green" id="p-s-value">—</div><div class="scard-label">Collection Value</div></div>
+          <div class="scard"><div class="scard-val poke" id="p-s-priced">0</div><div class="scard-label">Cards Priced</div></div>
+        </div>
+        <div class="coll-header">
+          <div class="coll-title">⚡ POKÉ DECK <span id="p-count-label"></span></div>
+        </div>
+        <div class="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="p-search" placeholder="Search Pokémon, set, rarity..." oninput="renderPokemon()">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Pokémon</th><th>Year</th><th>Expansion</th><th>#</th><th>Parallel</th><th>Rarity</th><th>Price</th><th></th></tr></thead>
+            <tbody id="p-tbody"></tbody>
+          </table>
+          <div class="empty" id="p-empty"><div class="empty-icon">⚡</div><h3>POKÉ DECK IS EMPTY</h3><p>Add your first Pokémon card using the form.</p></div>
         </div>
       </div>
     </div>
@@ -571,205 +339,233 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── STATE ──
-  let collection = JSON.parse(localStorage.getItem('icevault_cards') || '[]');
+  let hCards = JSON.parse(localStorage.getItem('jc_hockey') || '[]');
+  let pCards = JSON.parse(localStorage.getItem('jc_pokemon') || '[]');
+  let currentTab = 'hockey';
 
-  // ── INIT ──
-  renderTable();
-  updateStats();
+  // ── TAB SWITCH ──
+  function switchTab(tab) {
+    currentTab = tab;
+    const isH = tab === 'hockey';
+    document.body.className = isH ? 'tab-hockey' : 'tab-pokemon';
+    document.getElementById('bg-hockey').style.opacity = isH ? '1' : '0';
+    document.getElementById('bg-pokemon').style.opacity = isH ? '0' : '1';
+    document.getElementById('tab-hockey').className = 'tab-btn' + (isH ? ' active-hockey' : '');
+    document.getElementById('tab-pokemon').className = 'tab-btn' + (!isH ? ' active-pokemon' : '');
+    ['sec-h-form','sec-h-coll'].forEach(id => document.getElementById(id).className = 'section' + (isH ? ' active' : ''));
+    ['sec-p-form','sec-p-coll'].forEach(id => document.getElementById(id).className = 'section' + (!isH ? ' active' : ''));
+    document.getElementById('logo-icon').textContent = isH ? '🏒' : '⚡';
+    updateHeaderStats();
+  }
 
-
-  // ── ADD CARD ──
-  function addCard() {
-    const player = document.getElementById('f-player').value.trim();
-    const year   = document.getElementById('f-year').value.trim();
-    const set    = document.getElementById('f-set').value.trim();
-    const number = document.getElementById('f-number').value.trim();
-    const parallel = document.getElementById('f-parallel').value.trim();
-    const printrun = document.getElementById('f-printrun').value.trim();
-
+  // ── HOCKEY ──
+  function addHockeyCard() {
+    const player = document.getElementById('h-player').value.trim();
     if (!player) { showToast('Player name is required.', 'error'); return; }
-
-    const priceVal = parseFloat(document.getElementById('f-price').value);
-    const card = {
-      id: Date.now(),
-      player, year, set, number, parallel, printrun,
+    const priceVal = parseFloat(document.getElementById('h-price').value);
+    hCards.push({
+      id: Date.now(), player,
+      year: document.getElementById('h-year').value.trim(),
+      set: document.getElementById('h-set').value.trim(),
+      number: document.getElementById('h-number').value.trim(),
+      parallel: document.getElementById('h-parallel').value.trim(),
+      printrun: document.getElementById('h-printrun').value.trim(),
       price: isNaN(priceVal) ? null : priceVal,
       priceStatus: isNaN(priceVal) ? 'pending' : 'found'
-    };
-
-    collection.push(card);
-    saveCollection();
-    renderTable();
-    updateStats();
-    clearForm();
-    showToast(`${player} added to your vault!`, 'success');
-  }
-
-  function clearForm() {
-    ['f-player','f-year','f-set','f-number','f-parallel','f-printrun','f-price'].forEach(id => {
-      document.getElementById(id).value = '';
     });
+    saveH(); renderHockey(); updateHStats(); updateHeaderStats();
+    clearFields(['h-player','h-year','h-number','h-set','h-parallel','h-printrun','h-price']);
+    showToast(player + ' added to Ice Vault!', 'success');
   }
 
-  // ── EDIT PRICE ──
-  function editPrice(id) {
-    const card = collection.find(c => c.id === id);
-    if (!card) return;
-    const current = card.price !== null ? card.price.toFixed(2) : '';
-    const val = prompt(`Enter price for ${card.player} (USD $):`, current);
-    if (val === null) return; // cancelled
-    const parsed = parseFloat(val);
-    if (isNaN(parsed) || parsed < 0) {
-      card.price = null; card.priceStatus = 'pending';
-    } else {
-      card.price = parsed; card.priceStatus = 'found';
-    }
-    saveCollection();
-    renderTable();
-    updateStats();
-  }
-
-  // ── DELETE ──
-  function deleteCard(id) {
-    collection = collection.filter(c => c.id !== id);
-    saveCollection();
-    renderTable();
-    updateStats();
+  function deleteH(id) {
+    hCards = hCards.filter(c => c.id !== id);
+    saveH(); renderHockey(); updateHStats(); updateHeaderStats();
     showToast('Card removed.', '');
   }
 
-  // ── SAVE ──
-  function saveCollection() {
-    localStorage.setItem('icevault_cards', JSON.stringify(collection));
+  function editHPrice(id) {
+    const card = hCards.find(c => c.id === id);
+    if (!card) return;
+    const val = prompt('Price for ' + card.player + ' (USD $):', card.price !== null ? card.price.toFixed(2) : '');
+    if (val === null) return;
+    const p = parseFloat(val);
+    card.price = isNaN(p) || p < 0 ? null : p;
+    card.priceStatus = card.price !== null ? 'found' : 'pending';
+    saveH(); renderHockey(); updateHStats(); updateHeaderStats();
   }
 
-  // ── RENDER TABLE ──
-  function renderTable() {
-    const query = document.getElementById('search-input').value.toLowerCase();
-    const filtered = collection.filter(c =>
-      [c.player, c.set, c.parallel, c.year, c.number]
-        .some(v => (v||'').toLowerCase().includes(query))
-    );
+  function openEbayH(id) {
+    const c = hCards.find(x => x.id === id); if (!c) return;
+    const q = [c.year, c.player, c.set, c.parallel, c.number ? '#'+c.number : ''].filter(Boolean).join(' ');
+    window.open('https://www.ebay.com/sch/i.html?_nkw=' + encodeURIComponent(q) + '&LH_Sold=1&LH_Complete=1', '_blank');
+  }
 
-    const empty = document.getElementById('empty-state');
-    const tbody = document.getElementById('card-table-body');
-
-    if (collection.length === 0) {
-      empty.style.display = 'block';
-      tbody.innerHTML = '';
-      document.getElementById('card-count-label').textContent = '';
-      return;
-    }
+  function renderHockey() {
+    const q = document.getElementById('h-search').value.toLowerCase();
+    const f = hCards.filter(c => [c.player,c.set,c.parallel,c.year,c.number].some(v => (v||'').toLowerCase().includes(q)));
+    document.getElementById('h-count-label').textContent = hCards.length === 0 ? '' : f.length !== hCards.length ? '(' + f.length + ' / ' + hCards.length + ')' : '(' + hCards.length + ')';
+    const empty = document.getElementById('h-empty');
+    const tbody = document.getElementById('h-tbody');
+    if (hCards.length === 0) { empty.style.display='block'; tbody.innerHTML=''; return; }
     empty.style.display = 'none';
-    document.getElementById('card-count-label').textContent =
-      filtered.length !== collection.length
-        ? `(${filtered.length} / ${collection.length})`
-        : `(${collection.length})`;
-
-    tbody.innerHTML = filtered.map(card => `
-      <tr id="row-${card.id}">
-        <td class="player-cell">${esc(card.player)}</td>
-        <td><span class="year-badge">${esc(card.year||'—')}</span></td>
-        <td class="set-cell">${esc(card.set||'—')}</td>
-        <td class="num-cell">${esc(card.number ? '#'+card.number : '—')}</td>
-        <td class="parallel-cell">${card.parallel
-          ? `<span class="parallel-badge ${getParallelClass(card.parallel)}">${esc(card.parallel)}</span>`
-          : '<span style="color:var(--muted)">—</span>'}</td>
-        <td class="num-cell">${card.printrun ? '<span style="color:var(--gold);font-size:11px">/' + esc(card.printrun) + '</span>' : '<span style="color:var(--muted)">—</span>'}</td>
-        <td class="price-cell">${renderPrice(card)}</td>
-        <td class="actions-cell">
-          <button class="btn-icon ebay" title="Search on eBay" onclick="openEbay(${card.id})">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-            </svg>
-          </button>
-          <button class="btn-icon" title="Delete" onclick="deleteCard(${card.id})">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-            </svg>
-          </button>
-        </td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = f.map(c => '<tr>' +
+      '<td class="player-cell">' + esc(c.player) + '</td>' +
+      '<td><span class="year-badge">' + esc(c.year||'—') + '</span></td>' +
+      '<td class="set-cell">' + esc(c.set||'—') + '</td>' +
+      '<td class="num-cell">' + esc(c.number ? '#'+c.number : '—') + '</td>' +
+      '<td>' + (c.parallel ? '<span class="parallel-badge ' + getPC(c.parallel) + '">' + esc(c.parallel) + '</span>' : '<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td class="num-cell">' + (c.printrun ? '<span style="color:var(--gold);font-size:11px">/' + esc(c.printrun) + '</span>' : '<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td>' + (c.priceStatus==='found' && c.price!==null ? '<span class="price-val" onclick="editHPrice(' + c.id + ')" title="Click to edit">$' + c.price.toFixed(2) + ' ✎</span>' : '<span class="price-pending" onclick="editHPrice(' + c.id + ')">+ Add price</span>') + '</td>' +
+      '<td class="actions-cell">' +
+        '<button class="btn-icon search-link" title="Search eBay" onclick="openEbayH(' + c.id + ')">' + iconLink() + '</button>' +
+        '<button class="btn-icon" title="Delete" onclick="deleteH(' + c.id + ')">' + iconTrash() + '</button>' +
+      '</td></tr>').join('');
   }
 
-  // ── PARALLEL COLOR CLASS ──
-  function getParallelClass(parallel) {
-    if (!parallel) return 'parallel-default';
-    const p = parallel.toLowerCase();
-    if (p.includes('young gun') || p.includes('yg')) return 'parallel-yg';
-    if (p.includes('canvas')) return 'parallel-canvas';
-    if (p.includes('composition')) return 'parallel-composition';
-    if (p.includes('gold') || p.includes('or')) return 'parallel-gold';
-    if (p.includes('silver') || p.includes('argent')) return 'parallel-silver';
-    if (p.includes('rainbow') || p.includes('prizm')) return 'parallel-rainbow';
+  function updateHStats() {
+    const priced = hCards.filter(c => c.priceStatus==='found' && c.price!==null);
+    const total = priced.reduce((s,c) => s+c.price, 0);
+    document.getElementById('h-s-count').textContent = hCards.length;
+    document.getElementById('h-s-priced').textContent = priced.length;
+    document.getElementById('h-s-value').textContent = priced.length > 0 ? '$'+total.toFixed(2) : '—';
+  }
+
+  function saveH() { localStorage.setItem('jc_hockey', JSON.stringify(hCards)); }
+
+  // ── POKEMON ──
+  function addPokemonCard() {
+    const pokemon = document.getElementById('p-pokemon').value.trim();
+    if (!pokemon) { showToast('Pokémon name is required.', 'error'); return; }
+    const priceVal = parseFloat(document.getElementById('p-price').value);
+    pCards.push({
+      id: Date.now(), pokemon,
+      year: document.getElementById('p-year').value.trim(),
+      set: document.getElementById('p-set').value.trim(),
+      number: document.getElementById('p-number').value.trim(),
+      parallel: document.getElementById('p-parallel').value.trim(),
+      rarity: document.getElementById('p-rarity').value,
+      price: isNaN(priceVal) ? null : priceVal,
+      priceStatus: isNaN(priceVal) ? 'pending' : 'found'
+    });
+    saveP(); renderPokemon(); updatePStats(); updateHeaderStats();
+    clearFields(['p-pokemon','p-year','p-number','p-set','p-parallel','p-price']);
+    document.getElementById('p-rarity').value = '';
+    showToast(pokemon + ' added to Poké Deck!', 'success');
+  }
+
+  function deleteP(id) {
+    pCards = pCards.filter(c => c.id !== id);
+    saveP(); renderPokemon(); updatePStats(); updateHeaderStats();
+    showToast('Card removed.', '');
+  }
+
+  function editPPrice(id) {
+    const card = pCards.find(c => c.id === id); if (!card) return;
+    const val = prompt('Price for ' + card.pokemon + ' (USD $):', card.price !== null ? card.price.toFixed(2) : '');
+    if (val === null) return;
+    const p = parseFloat(val);
+    card.price = isNaN(p) || p < 0 ? null : p;
+    card.priceStatus = card.price !== null ? 'found' : 'pending';
+    saveP(); renderPokemon(); updatePStats(); updateHeaderStats();
+  }
+
+  function openEbayP(id) {
+    const c = pCards.find(x => x.id === id); if (!c) return;
+    const q = [c.pokemon, c.set, c.rarity, c.parallel, c.number].filter(Boolean).join(' ');
+    window.open('https://www.ebay.com/sch/i.html?_nkw=' + encodeURIComponent(q) + '&LH_Sold=1&LH_Complete=1', '_blank');
+  }
+
+  function renderPokemon() {
+    const q = document.getElementById('p-search').value.toLowerCase();
+    const f = pCards.filter(c => [c.pokemon,c.set,c.parallel,c.year,c.number,c.rarity].some(v => (v||'').toLowerCase().includes(q)));
+    document.getElementById('p-count-label').textContent = pCards.length === 0 ? '' : f.length !== pCards.length ? '(' + f.length + ' / ' + pCards.length + ')' : '(' + pCards.length + ')';
+    const empty = document.getElementById('p-empty');
+    const tbody = document.getElementById('p-tbody');
+    if (pCards.length === 0) { empty.style.display='block'; tbody.innerHTML=''; return; }
+    empty.style.display = 'none';
+    tbody.innerHTML = f.map(c => '<tr>' +
+      '<td class="player-cell">' + esc(c.pokemon) + '</td>' +
+      '<td><span class="year-badge">' + esc(c.year||'—') + '</span></td>' +
+      '<td class="set-cell">' + esc(c.set||'—') + '</td>' +
+      '<td class="num-cell">' + esc(c.number||'—') + '</td>' +
+      '<td>' + (c.parallel ? '<span class="parallel-badge parallel-default">' + esc(c.parallel) + '</span>' : '<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td>' + (c.rarity ? '<span class="rarity-badge ' + getRC(c.rarity) + '">' + esc(c.rarity) + '</span>' : '<span style="color:var(--muted)">—</span>') + '</td>' +
+      '<td>' + (c.priceStatus==='found' && c.price!==null ? '<span class="price-val" onclick="editPPrice(' + c.id + ')" title="Click to edit">$' + c.price.toFixed(2) + ' ✎</span>' : '<span class="price-pending" onclick="editPPrice(' + c.id + ')">+ Add price</span>') + '</td>' +
+      '<td class="actions-cell">' +
+        '<button class="btn-icon search-link" title="Search eBay" onclick="openEbayP(' + c.id + ')">' + iconLink() + '</button>' +
+        '<button class="btn-icon" title="Delete" onclick="deleteP(' + c.id + ')">' + iconTrash() + '</button>' +
+      '</td></tr>').join('');
+  }
+
+  function updatePStats() {
+    const priced = pCards.filter(c => c.priceStatus==='found' && c.price!==null);
+    const total = priced.reduce((s,c) => s+c.price, 0);
+    document.getElementById('p-s-count').textContent = pCards.length;
+    document.getElementById('p-s-priced').textContent = priced.length;
+    document.getElementById('p-s-value').textContent = priced.length > 0 ? '$'+total.toFixed(2) : '—';
+  }
+
+  function saveP() { localStorage.setItem('jc_pokemon', JSON.stringify(pCards)); }
+
+  // ── HEADER STATS ──
+  function updateHeaderStats() {
+    const cards = currentTab === 'hockey' ? hCards : pCards;
+    const priced = cards.filter(c => c.priceStatus==='found' && c.price!==null);
+    const total = priced.reduce((s,c) => s+c.price, 0);
+    document.getElementById('hstat-count').textContent = cards.length;
+    document.getElementById('hstat-value').textContent = priced.length > 0 ? '$'+total.toFixed(2) : '—';
+  }
+
+  // ── HELPERS ──
+  function getPC(p) {
+    if (!p) return 'parallel-default';
+    const l = p.toLowerCase();
+    if (l.includes('young gun') || l.includes('yg')) return 'parallel-yg';
+    if (l.includes('canvas')) return 'parallel-canvas';
+    if (l.includes('composition')) return 'parallel-composition';
+    if (l.includes('gold') || l.includes('or')) return 'parallel-gold';
+    if (l.includes('silver') || l.includes('argent')) return 'parallel-silver';
+    if (l.includes('rainbow') || l.includes('prizm')) return 'parallel-rainbow';
     return 'parallel-default';
   }
 
-  function renderPrice(card) {
-    if (card.priceStatus === 'found' && card.price !== null)
-      return `<span class="price-val" onclick="editPrice(${card.id})" title="Click to edit" style="cursor:pointer">$${card.price.toFixed(2)} ✎</span>`;
-    return `<span class="price-pending" onclick="editPrice(${card.id})" title="Click to add price" style="cursor:pointer">+ Add price</span>`;
+  function getRC(r) {
+    if (!r) return 'rarity-default';
+    const l = r.toLowerCase();
+    if (l.includes('common') && !l.includes('un')) return 'rarity-common';
+    if (l.includes('uncommon')) return 'rarity-uncommon';
+    if (l.includes('secret') || l.includes('hyper')) return 'rarity-secret';
+    if (l.includes('ultra') || l.includes('special') || l.includes('illustration')) return 'rarity-ultra';
+    if (l.includes('holo')) return 'rarity-holo';
+    if (l.includes('rare')) return 'rarity-rare';
+    return 'rarity-default';
   }
 
-  // ── OPEN EBAY ──
-  function openEbay(id) {
-    const card = collection.find(c => c.id === id);
-    if (!card) return;
-    const q = buildQuery(card);
-    window.open(`https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(q)}&LH_Sold=1&LH_Complete=1`, '_blank');
-  }
+  function clearFields(ids) { ids.forEach(id => { document.getElementById(id).value = ''; }); }
 
-  function buildQuery(card) {
-    return [card.year, card.player, card.set, card.parallel, card.number ? '#'+card.number : '']
-      .filter(Boolean).join(' ');
-  }
-
-
-
-
-
-  // ── STATS ──
-  function updateStats() {
-    const count = collection.length;
-    const priced = collection.filter(c => c.priceStatus === 'found' && c.price !== null);
-    const total = priced.reduce((s, c) => s + c.price, 0);
-
-    document.getElementById('s-count').textContent = count;
-    document.getElementById('hstat-count').textContent = count;
-    document.getElementById('s-priced').textContent = priced.length;
-
-    if (priced.length > 0) {
-      const fmt = '$' + total.toFixed(2);
-      document.getElementById('s-value').textContent = fmt;
-      document.getElementById('hstat-value').textContent = fmt;
-    } else {
-      document.getElementById('s-value').textContent = '—';
-      document.getElementById('hstat-value').textContent = '—';
-    }
-  }
-
-  // ── TOAST ──
   function showToast(msg, type) {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = `toast ${type} show`;
+    t.textContent = msg; t.className = 'toast ' + type + ' show';
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  function esc(str) {
-    return String(str||'')
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
+  function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  // Enter key to add card
+  function iconLink() { return '<svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>'; }
+  function iconTrash() { return '<svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>'; }
+
+  // Enter key
   document.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && ['f-player','f-year','f-set','f-number','f-parallel'].includes(e.target.id)) {
-      addCard();
-    }
+    if (e.key !== 'Enter') return;
+    const hIds = ['h-player','h-year','h-number','h-set','h-parallel','h-printrun','h-price'];
+    const pIds = ['p-pokemon','p-year','p-number','p-set','p-parallel','p-price'];
+    if (hIds.includes(e.target.id)) addHockeyCard();
+    if (pIds.includes(e.target.id)) addPokemonCard();
   });
+
+  // ── INIT ──
+  renderHockey(); renderPokemon(); updateHStats(); updatePStats(); updateHeaderStats();
 </script>
 </body>
 </html>
