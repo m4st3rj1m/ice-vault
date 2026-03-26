@@ -31,27 +31,24 @@
     overflow-x: hidden;
   }
 
-  /* Background rink lines */
+  /* Hockey themed background */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(ellipse 80% 40% at 50% 0%, rgba(30,111,187,0.12) 0%, transparent 70%),
-      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(61,157,232,0.04) 79px, rgba(61,157,232,0.04) 80px);
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(30,111,187,0.18) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(61,157,232,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 20% 70%, rgba(30,111,187,0.06) 0%, transparent 60%);
     pointer-events: none;
     z-index: 0;
   }
-
-  /* Center ice circle */
   body::after {
     content: '';
     position: fixed;
-    width: 600px; height: 600px;
-    border-radius: 50%;
-    border: 1px solid rgba(61,157,232,0.06);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3C!-- Puck --%3E%3Cellipse cx='30' cy='40' rx='12' ry='5' fill='none' stroke='rgba(61,157,232,0.07)' stroke-width='1.5'/%3E%3Cellipse cx='30' cy='38' rx='12' ry='5' fill='none' stroke='rgba(61,157,232,0.05)' stroke-width='1'/%3E%3Crect x='18' y='38' width='24' height='4' rx='0' fill='none' stroke='rgba(61,157,232,0.04)' stroke-width='1'/%3E%3C!-- Stick 1 --%3E%3Cline x1='80' y1='10' x2='120' y2='80' stroke='rgba(61,157,232,0.06)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='120' y1='80' x2='135' y2='75' stroke='rgba(61,157,232,0.06)' stroke-width='3' stroke-linecap='round'/%3E%3C!-- Puck 2 --%3E%3Cellipse cx='160' cy='130' rx='10' ry='4' fill='none' stroke='rgba(61,157,232,0.06)' stroke-width='1.5'/%3E%3Crect x='150' y='128' width='20' height='4' rx='0' fill='none' stroke='rgba(61,157,232,0.04)' stroke-width='1'/%3E%3C!-- Stick 2 --%3E%3Cline x1='10' y1='120' x2='60' y2='180' stroke='rgba(61,157,232,0.05)' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='60' y1='180' x2='75' y2='173' stroke='rgba(61,157,232,0.05)' stroke-width='3' stroke-linecap='round'/%3E%3C!-- Stars/ice crystals --%3E%3Ccircle cx='100' cy='100' r='1' fill='rgba(200,230,255,0.12)'/%3E%3Ccircle cx='50' cy='160' r='1' fill='rgba(200,230,255,0.1)'/%3E%3Ccircle cx='170' cy='50' r='1.5' fill='rgba(200,230,255,0.1)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
     pointer-events: none;
     z-index: 0;
   }
@@ -187,55 +184,7 @@
   }
   .btn-primary:active { transform: translateY(0); }
 
-  /* API Key section */
-  .api-section {
-    margin: 0 22px 20px;
-    padding: 14px;
-    background: rgba(240,192,64,0.07);
-    border: 1px solid rgba(240,192,64,0.2);
-    border-radius: 10px;
-  }
-  .api-section label {
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--gold);
-    font-weight: 500;
-    display: block; margin-bottom: 8px;
-  }
-  .api-row { display: flex; gap: 8px; }
-  .api-row input {
-    flex: 1;
-    background: rgba(10,22,40,0.8);
-    border: 1px solid rgba(240,192,64,0.25);
-    border-radius: 7px;
-    color: var(--white);
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    padding: 8px 12px;
-    outline: none;
-  }
-  .api-row input:focus { border-color: var(--gold); }
-  .btn-save-key {
-    background: rgba(240,192,64,0.15);
-    border: 1px solid rgba(240,192,64,0.3);
-    color: var(--gold);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 7px;
-    cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
-  }
-  .btn-save-key:hover { background: rgba(240,192,64,0.25); }
-  .key-status {
-    font-size: 11px;
-    margin-top: 6px;
-    color: var(--muted);
-  }
-  .key-status.ok { color: #4caf82; }
+
 
   /* ── COLLECTION PANEL ── */
   .collection-panel { display: flex; flex-direction: column; gap: 16px; }
@@ -267,8 +216,7 @@
   .btn-refresh:hover { background: rgba(30,111,187,0.3); }
   .btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-refresh svg { width: 15px; height: 15px; }
-  .spinning { animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+
 
   /* Search bar */
   .search-bar {
@@ -346,12 +294,48 @@
   }
   .parallel-badge {
     display: inline-block;
-    background: rgba(240,192,64,0.1);
-    border: 1px solid rgba(240,192,64,0.2);
-    color: var(--gold);
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 3px 9px;
+    border-radius: 5px;
     font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+  }
+  /* Parallel color themes */
+  .parallel-yg {
+    background: rgba(255,60,60,0.12);
+    border-color: rgba(255,80,80,0.35);
+    color: #ff7070;
+  }
+  .parallel-canvas {
+    background: rgba(180,120,60,0.12);
+    border-color: rgba(200,140,80,0.35);
+    color: #d4a06a;
+  }
+  .parallel-composition {
+    background: rgba(120,80,200,0.12);
+    border-color: rgba(150,100,220,0.35);
+    color: #b088e8;
+  }
+  .parallel-gold {
+    background: rgba(240,192,64,0.12);
+    border-color: rgba(240,192,64,0.35);
+    color: var(--gold);
+  }
+  .parallel-silver {
+    background: rgba(180,200,220,0.12);
+    border-color: rgba(180,200,220,0.35);
+    color: #b8cdd8;
+  }
+  .parallel-rainbow {
+    background: linear-gradient(90deg,rgba(255,80,80,0.1),rgba(80,180,255,0.1),rgba(150,80,255,0.1));
+    border-color: rgba(200,150,255,0.4);
+    color: #d0a0ff;
+  }
+  .parallel-default {
+    background: rgba(61,157,232,0.1);
+    border-color: rgba(61,157,232,0.25);
+    color: var(--blue-bright);
   }
 
   .price-cell {
@@ -473,7 +457,7 @@
       </div>
       <div class="hstat">
         <div class="hstat-val" id="hstat-value">—</div>
-        <div class="hstat-label">Est. Value</div>
+        <div class="hstat-label">Value (USD)</div>
       </div>
     </div>
   </div>
@@ -510,29 +494,21 @@
           </div>
           <div class="field">
             <label>Parallel / Variant</label>
-            <input type="text" id="f-parallel" placeholder="e.g. Young Guns, Retro, Gold">
+            <input type="text" id="f-parallel" placeholder="e.g. Young Guns, Canvas, Composition">
+          </div>
+          <div class="field">
+            <label>Print Run (max cards produced)</label>
+            <input type="number" id="f-printrun" placeholder="e.g. 100, 999, 2500" min="1">
+          </div>
+          <div class="field">
+            <label>Price Paid / Est. Value (USD $)</label>
+            <input type="number" id="f-price" placeholder="e.g. 12.50" min="0" step="0.01">
           </div>
           <button class="btn btn-primary" onclick="addCard()">＋ ADD TO COLLECTION</button>
         </div>
       </div>
 
-      <!-- API KEY -->
-      <div class="panel" style="margin-top:16px;">
-        <div class="panel-header">
-          <div class="panel-dot" style="background:var(--gold);box-shadow:0 0 8px var(--gold)"></div>
-          <h2>EBAY API KEY</h2>
-        </div>
-        <div style="padding:16px 22px 20px;">
-          <div class="api-section" style="margin:0;">
-            <label>🔑 App ID (Client ID)</label>
-            <div class="api-row">
-              <input type="password" id="api-key-input" placeholder="Paste your eBay App ID here">
-              <button class="btn-save-key" onclick="saveApiKey()">Save</button>
-            </div>
-            <div class="key-status" id="key-status">No key saved — prices will not load.</div>
-          </div>
-        </div>
-      </div>
+
     </div>
 
     <!-- COLLECTION -->
@@ -544,22 +520,17 @@
         </div>
         <div class="scard">
           <div class="scard-val green" id="s-value">—</div>
-          <div class="scard-label">Est. Collection Value</div>
+          <div class="scard-label">Collection Value (USD)</div>
         </div>
         <div class="scard">
           <div class="scard-val" id="s-priced">0</div>
-          <div class="scard-label">Cards Priced</div>
+          <div class="scard-label">Cards with Price</div>
         </div>
       </div>
 
       <div class="coll-header">
         <div class="coll-title">MY COLLECTION <span id="card-count-label"></span></div>
-        <button class="btn-refresh" id="refresh-btn" onclick="refreshAllPrices()">
-          <svg id="refresh-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M20 20v-5h-5M4 9a9 9 0 0115.4-3.4M20 15a9 9 0 01-15.4 3.4"/>
-          </svg>
-          Refresh Prices
-        </button>
+  
       </div>
 
       <div class="search-bar">
@@ -578,7 +549,8 @@
               <th>Set</th>
               <th>#</th>
               <th>Parallel</th>
-              <th>Est. Price</th>
+              <th>Print Run</th>
+              <th>Price (USD)</th>
               <th></th>
             </tr>
           </thead>
@@ -601,27 +573,11 @@
 <script>
   // ── STATE ──
   let collection = JSON.parse(localStorage.getItem('icevault_cards') || '[]');
-  let apiKey = localStorage.getItem('icevault_apikey') || '';
 
   // ── INIT ──
-  if (apiKey) {
-    document.getElementById('api-key-input').value = apiKey;
-    document.getElementById('key-status').textContent = '✓ API key loaded.';
-    document.getElementById('key-status').classList.add('ok');
-  }
   renderTable();
   updateStats();
 
-  // ── SAVE API KEY ──
-  function saveApiKey() {
-    const val = document.getElementById('api-key-input').value.trim();
-    if (!val) { showToast('Please enter your eBay App ID.', 'error'); return; }
-    apiKey = val;
-    localStorage.setItem('icevault_apikey', val);
-    document.getElementById('key-status').textContent = '✓ API key saved!';
-    document.getElementById('key-status').classList.add('ok');
-    showToast('API key saved successfully!', 'success');
-  }
 
   // ── ADD CARD ──
   function addCard() {
@@ -630,13 +586,16 @@
     const set    = document.getElementById('f-set').value.trim();
     const number = document.getElementById('f-number').value.trim();
     const parallel = document.getElementById('f-parallel').value.trim();
+    const printrun = document.getElementById('f-printrun').value.trim();
 
     if (!player) { showToast('Player name is required.', 'error'); return; }
 
+    const priceVal = parseFloat(document.getElementById('f-price').value);
     const card = {
       id: Date.now(),
-      player, year, set, number, parallel,
-      price: null, priceStatus: 'pending'
+      player, year, set, number, parallel, printrun,
+      price: isNaN(priceVal) ? null : priceVal,
+      priceStatus: isNaN(priceVal) ? 'pending' : 'found'
     };
 
     collection.push(card);
@@ -648,9 +607,27 @@
   }
 
   function clearForm() {
-    ['f-player','f-year','f-set','f-number','f-parallel'].forEach(id => {
+    ['f-player','f-year','f-set','f-number','f-parallel','f-printrun','f-price'].forEach(id => {
       document.getElementById(id).value = '';
     });
+  }
+
+  // ── EDIT PRICE ──
+  function editPrice(id) {
+    const card = collection.find(c => c.id === id);
+    if (!card) return;
+    const current = card.price !== null ? card.price.toFixed(2) : '';
+    const val = prompt(`Enter price for ${card.player} (USD $):`, current);
+    if (val === null) return; // cancelled
+    const parsed = parseFloat(val);
+    if (isNaN(parsed) || parsed < 0) {
+      card.price = null; card.priceStatus = 'pending';
+    } else {
+      card.price = parsed; card.priceStatus = 'found';
+    }
+    saveCollection();
+    renderTable();
+    updateStats();
   }
 
   // ── DELETE ──
@@ -697,8 +674,9 @@
         <td class="set-cell">${esc(card.set||'—')}</td>
         <td class="num-cell">${esc(card.number ? '#'+card.number : '—')}</td>
         <td class="parallel-cell">${card.parallel
-          ? `<span class="parallel-badge">${esc(card.parallel)}</span>`
+          ? `<span class="parallel-badge ${getParallelClass(card.parallel)}">${esc(card.parallel)}</span>`
           : '<span style="color:var(--muted)">—</span>'}</td>
+        <td class="num-cell">${card.printrun ? '<span style="color:var(--gold);font-size:11px">/' + esc(card.printrun) + '</span>' : '<span style="color:var(--muted)">—</span>'}</td>
         <td class="price-cell">${renderPrice(card)}</td>
         <td class="actions-cell">
           <button class="btn-icon ebay" title="Search on eBay" onclick="openEbay(${card.id})">
@@ -716,12 +694,23 @@
     `).join('');
   }
 
+  // ── PARALLEL COLOR CLASS ──
+  function getParallelClass(parallel) {
+    if (!parallel) return 'parallel-default';
+    const p = parallel.toLowerCase();
+    if (p.includes('young gun') || p.includes('yg')) return 'parallel-yg';
+    if (p.includes('canvas')) return 'parallel-canvas';
+    if (p.includes('composition')) return 'parallel-composition';
+    if (p.includes('gold') || p.includes('or')) return 'parallel-gold';
+    if (p.includes('silver') || p.includes('argent')) return 'parallel-silver';
+    if (p.includes('rainbow') || p.includes('prizm')) return 'parallel-rainbow';
+    return 'parallel-default';
+  }
+
   function renderPrice(card) {
-    if (card.priceStatus === 'loading') return '<span class="price-loading"></span>';
     if (card.priceStatus === 'found' && card.price !== null)
-      return `<span class="price-val">~$${card.price.toFixed(2)}</span>`;
-    if (card.priceStatus === 'error') return '<span class="price-error">Not found</span>';
-    return '<span class="price-pending">—</span>';
+      return `<span class="price-val" onclick="editPrice(${card.id})" title="Click to edit" style="cursor:pointer">$${card.price.toFixed(2)} ✎</span>`;
+    return `<span class="price-pending" onclick="editPrice(${card.id})" title="Click to add price" style="cursor:pointer">+ Add price</span>`;
   }
 
   // ── OPEN EBAY ──
@@ -737,86 +726,9 @@
       .filter(Boolean).join(' ');
   }
 
-  // ── REFRESH PRICES ──
-  async function refreshAllPrices() {
-    if (!apiKey) {
-      showToast('Please save your eBay API key first.', 'error');
-      return;
-    }
-    if (collection.length === 0) {
-      showToast('No cards in your collection yet.', '');
-      return;
-    }
 
-    const btn = document.getElementById('refresh-btn');
-    const icon = document.getElementById('refresh-icon');
-    btn.disabled = true;
-    icon.classList.add('spinning');
 
-    // Set all to loading
-    collection.forEach(c => c.priceStatus = 'loading');
-    renderTable();
 
-    let done = 0;
-    for (const card of collection) {
-      await fetchPrice(card);
-      done++;
-      saveCollection();
-      renderTable();
-      updateStats();
-    }
-
-    btn.disabled = false;
-    icon.classList.remove('spinning');
-    showToast(`Prices updated for ${done} card(s).`, 'success');
-  }
-
-  async function fetchPrice(card) {
-    const query = buildQuery(card);
-    const ebayUrl = `https://svcs.ebay.com/services/search/FindingService/v1`
-      + `?OPERATION-NAME=findCompletedItems`
-      + `&SERVICE-VERSION=1.0.0`
-      + `&SECURITY-APPNAME=${encodeURIComponent(apiKey)}`
-      + `&RESPONSE-DATA-FORMAT=JSON`
-      + `&keywords=${encodeURIComponent(query)}`
-      + `&categoryId=212`
-      + `&itemFilter(0).name=SoldItemsOnly&itemFilter(0).value=true`
-      + `&sortOrder=EndTimeSoonest`
-      + `&paginationInput.entriesPerPage=10`;
-
-    const url = `https://api.allorigins.win/get?url=${encodeURIComponent(ebayUrl)}`;
-
-    try {
-      const res = await fetch(url);
-      const json = await res.json();
-      const data = JSON.parse(json.contents);
-      const items = data?.findCompletedItemsResponse?.[0]
-        ?.searchResult?.[0]?.item || [];
-
-      if (items.length === 0) {
-        card.priceStatus = 'error'; card.price = null; return;
-      }
-
-      const prices = items
-        .map(i => parseFloat(i?.sellingStatus?.[0]?.currentPrice?.[0]?.__value__))
-        .filter(p => !isNaN(p) && p > 0);
-
-      if (prices.length === 0) {
-        card.priceStatus = 'error'; card.price = null; return;
-      }
-
-      // Median price
-      prices.sort((a,b) => a-b);
-      const mid = Math.floor(prices.length / 2);
-      card.price = prices.length % 2 !== 0
-        ? prices[mid]
-        : (prices[mid-1] + prices[mid]) / 2;
-      card.priceStatus = 'found';
-
-    } catch(e) {
-      card.priceStatus = 'error'; card.price = null;
-    }
-  }
 
   // ── STATS ──
   function updateStats() {
